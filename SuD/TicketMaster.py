@@ -35,7 +35,13 @@ else:
 
 # Funktion zur Auswahl der richtigen Sprache
 def get_text(key):
-    return Text[key][lang]
+    if key in Text:
+        if lang in Text[key]:
+            return Text[key][lang]
+        else:
+            return f'Sprache {lang} nicht in key{key}'
+    else:
+        return f'Key nicht im Text{key}'
 
 # Haupt-Loop für Ticketabfragen
 ticket = True
