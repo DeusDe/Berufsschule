@@ -5,22 +5,9 @@
 
 # Text-Dictionary
 from Text import Text
+from Prices import prices
 
-# Preise für halben Tag
-preis_erwachsene_halb = 5.0
-preis_jugendliche_halb = 3.5
-preis_kinder_halb = 2.5
-preis_premium_halb = 3.0
-preis_basis_halb = 4.0
-
-# Preise für ganzen Tag
-preis_erwachsene_ganz = 10.0
-preis_jugendliche_ganz = 6.0
-preis_kinder_ganz = 5.0
-preis_premium_ganz = 6.0
-preis_basis_ganz = 8.0
-
-global_gesamt_preis = 0.0  # Globale Gesamtsumme aller Ticketpreise
+price_sum_global = 0.0  # Globale Gesamtsumme aller Ticketpreise
 
 # Sprachauswahl
 print(Text['lang_select'])
@@ -72,17 +59,17 @@ while ticket:
     # Preisberechnung nach Altersgruppe
     if alter_gast < 14:
         if tageswahl in ['halb', 'half']:
-            gesamt_preis += preis_kinder_halb
+            gesamt_preis += prices['kid_half']
             print(get_text('child_half'))
         else:
-            gesamt_preis += preis_kinder_ganz
+            gesamt_preis += prices['kid']
             print(get_text('child_full'))
     elif 14 <= alter_gast <= 18:
         if tageswahl in ['halb', 'half']:
-            gesamt_preis += preis_jugendliche_halb
+            gesamt_preis += prices['kid_teen_half']
             print(get_text('youth_half'))
         else:
-            gesamt_preis += preis_jugendliche_ganz
+            gesamt_preis += prices['kid_half']
             print(get_text('youth_full'))
     else:
         # Abfrage der Mitgliedschaft
@@ -94,10 +81,10 @@ while ticket:
 
         if antwort_rabatt == "p":
             if tageswahl in ['halb', 'half']:
-                gesamt_preis += preis_premium_halb
+                gesamt_preis += prices['premium_half']
                 print(get_text('premium_half'))
             else:
-                gesamt_preis += preis_premium_ganz
+                gesamt_preis += prices['premium']
                 print(get_text('premium_full'))
             print(get_text('price_prompt'), gesamt_preis, "Euro")
 
@@ -109,17 +96,17 @@ while ticket:
                 print(get_text('price_prompt'), gesamt_preis, "Euro")
         elif antwort_rabatt == "b":
             if tageswahl in ['halb', 'half']:
-                gesamt_preis += preis_basis_halb
+                gesamt_preis += prices['basic_half']
                 print(get_text('basic_half'))
             else:
-                gesamt_preis += preis_basis_ganz
+                gesamt_preis += prices['basic']
                 print(get_text('basic_full'))
         elif antwort_rabatt == "n":
             if tageswahl in ['halb', 'half']:
-                gesamt_preis += preis_erwachsene_halb
+                gesamt_preis += prices['adult']
                 print(get_text('adult_half'))
             else:
-                gesamt_preis += preis_erwachsene_ganz
+                gesamt_preis += prices['adult_full']
                 print(get_text('adult_full'))
 
     # Preis anzeigen
@@ -129,8 +116,8 @@ while ticket:
     print(get_text('add_to_total'))
     add_to_total = input().lower()
     if add_to_total in ["j", "y"]:
-        global_gesamt_preis += gesamt_preis
-        print(get_text('added_to_total'), global_gesamt_preis, "Euro")
+        price_sum_global += gesamt_preis
+        print(get_text('added_to_total'), price_sum_global, "Euro")
     else:
         print(get_text('not_added_to_total'))
 
@@ -138,6 +125,6 @@ while ticket:
     print(get_text('another_inquiry'))
     abfrage_ticket = input().lower()
     if abfrage_ticket == "n":
-        print(get_text('thank_you'), global_gesamt_preis, get_text('enjoy'))
+        print(get_text('thank_you'), price_sum_global, get_text('enjoy'))
         break
     print("\n")
